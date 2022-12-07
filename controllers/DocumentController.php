@@ -11,7 +11,6 @@ use app\models\Viewed;
 use Yii;
 use yii\bootstrap5\Html;
 use yii\data\ActiveDataProvider;
-use yii\db\Expression;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
@@ -171,7 +170,7 @@ class DocumentController extends Controller
         if($model->resolution == NULL){
             $resolution = User::find()->where(['not in', 'id', $data])->andWhere(['not in', 'id', $model->author]);
         } else {
-            $resolution = User::find()->where(['not in', 'id', $data])->andWhere(['id' => $model->resolution]);
+            $resolution = User::find()->where(['not in', 'id', $data])->andWhere(['id' => $model->resolution])->andWhere(['not in', 'id', $model->author]);
         }
 
         $dataViewed = new ActiveDataProvider([
@@ -340,8 +339,8 @@ class DocumentController extends Controller
      */
     public function getUsersName()
     {
-        $users = new User();
-        return $users->getAllUser();
+        return ArrayHelper::map(User::find()->where(['status' => 10])->andWhere(['!=', 'id', Yii::$app->user->identity->getId()])->all(),'id','employee_name');
+
     }
 
     /**

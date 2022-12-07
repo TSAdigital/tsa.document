@@ -1,5 +1,7 @@
 <?php
 
+use kartik\date\DatePicker;
+use kartik\select2\Select2;
 use yii\bootstrap4\ActiveForm;
 
 /** @var yii\web\View $this */
@@ -12,19 +14,26 @@ use yii\bootstrap4\ActiveForm;
 
 <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
+<?= $form->field($model, 'date')->widget(DatePicker::classname(), [
+    'options' => ['placeholder' => 'Ввод даты ...'],
+    'value' => 'dd.mm.yyyy',
+    'pluginOptions' => [
+        'format' => 'dd.mm.yyyy',
+        'autoclose' => true,
+        'todayBtn' => true,
+        'todayHighlight' => true,
+    ]
+]) ?>
+
 <?= $form->field($model, 'description')->textarea() ?>
 
-<?= $form->field($model, 'date')->textInput(['type' => 'date']) ?>
+<?= $form->field($model, 'resolution')->widget(Select2::classname(), [
+    'data' => $users,
+    'maintainOrder' => true,
+    'options' => ['placeholder' => 'Выберите сотрудника...', 'multiple' => true],
+]) ?>
 
-<?= $form->field($model, 'resolution')->dropDownList($users,
- [
-    'multiple'=>'multiple',
-
- ]
-);
-?>
-
-<?= $form->field($model, 'status')->dropDownList( $model->getStatusesArray(), ['prompt' => 'Выберите статус']); ?>
+<?= $form->field($model, 'status')->dropDownList( $model->getStatusesArray(), ['prompt' => 'Выберите статус']) ?>
 
 <?= $model->isNewRecord ? $form->field($model, 'send_email')->checkbox()->label('Оповестить участников на электронную почту') : null; ?>
 

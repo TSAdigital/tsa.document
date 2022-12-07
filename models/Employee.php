@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
@@ -55,7 +56,7 @@ class Employee extends ActiveRecord
         return [
             [['last_name', 'first_name', 'birthdate', 'position_id', 'status'], 'required'],
             [['position_id', 'status'], 'integer'],
-            ['birthdate', 'date', 'format' => 'php:Y-m-d'],
+            ['birthdate', 'date', 'format' => 'php:d.m.Y'],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
             [['last_name', 'first_name', 'middle_name'], 'string', 'max' => 255],
             [['position_id'], 'exist', 'skipOnError' => true, 'targetClass' => Position::class, 'targetAttribute' => ['position_id' => 'id']],
@@ -138,5 +139,25 @@ class Employee extends ActiveRecord
             $this->first_name ?? null,
             $this->middle_name ?? null
         ]);
+    }
+
+    /**
+     *
+     */
+    public function beforeSave($insert)
+    {
+        $this->birthdate = !empty($this->birthdate) ? date('Y-m-d', strtotime($this->birthdate)) : NULL;
+
+        return parent::beforeSave($insert);
+    }
+
+    /**
+     *
+     */
+    public function afterFind()
+    {
+        parent::afterFind();
+
+        $this->birthdate = !empty($this->birthdate) ? Yii::$app->formatter->asDate($this->birthdate): NULL;
     }
 }

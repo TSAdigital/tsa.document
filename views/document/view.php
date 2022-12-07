@@ -56,7 +56,7 @@ $this->params['buttons'] = [
                                         'captionOptions' => ['width' => '200px'],
                                     ],
                                     'description',
-                                    'date:date',
+                                    'date',
                                     [
                                         'attribute' => 'author',
                                         'format' => 'raw',

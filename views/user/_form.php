@@ -1,5 +1,6 @@
 <?php
 
+use kartik\select2\Select2;
 use yii\bootstrap4\ActiveForm;
 use yii\widgets\MaskedInput;
 
@@ -15,7 +16,15 @@ use yii\widgets\MaskedInput;
 <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
 <?= $form->field($model, 'new_password')->passwordInput() ?>
 
-<?= $form->field($model, 'employee_id')->dropDownList($employees, ['prompt' => 'Выберите сотрудника']); ?>
+<?= $form->field($model, 'employee_id')->widget(Select2::classname(),
+    [
+        'data' => $employees,
+        'options' => ['placeholder' => 'Выберите сотрудника...'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]);
+?>
 
 <?= $form->field($model, 'roles')->dropDownList($model->getRolesDropdown(), ['prompt' => 'Выберите роль']); ?>
 

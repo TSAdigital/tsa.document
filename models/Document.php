@@ -60,7 +60,7 @@ class Document extends ActiveRecord
             [['status', 'created_at', 'updated_at'], 'integer'],
             [['name'], 'string', 'max' => 255],
             [['description'], 'string'],
-            ['date', 'date', 'format' => 'php:Y-m-d'],
+            ['date', 'date', 'format' => 'php:d.m.Y'],
             ['author', 'integer'],
             ['resolution', 'checkIsArray'],
             [['name', 'description'], 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
@@ -108,6 +108,17 @@ class Document extends ActiveRecord
         return ArrayHelper::getValue(self::getStatusesArray(), $this->status);
     }
 
+
+    /**
+     *
+     */
+    public function afterFind()
+    {
+        parent::afterFind();
+
+        $this->date = !empty($this->date) ? Yii::$app->formatter->asDate($this->date): NULL;
+    }
+
     /**
      *
      */
@@ -115,6 +126,8 @@ class Document extends ActiveRecord
     {
         !$this->isNewRecord ?: $this->author = Yii::$app->user->identity->getId();
         is_array($this->resolution) ?: $this->resolution = NULL;
+        $this->date = !empty($this->date) ? date('Y-m-d', strtotime($this->date)) : NULL;
+
         return parent::beforeSave($insert);
     }
 

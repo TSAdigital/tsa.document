@@ -37,7 +37,7 @@ $this->params['buttons'] = [
                             ],
                             'first_name',
                             'middle_name',
-                            'birthdate:date',
+                            'birthdate',
                             'position_name',
                             [
                                 'attribute' => 'status',
