@@ -29,7 +29,8 @@ use yii\bootstrap4\ActiveForm;
 
 <?= $form->field($model, 'resolution')->widget(Select2::classname(), [
     'data' => $users,
-    'maintainOrder' => true,
+    'theme' => 'krajee-bs3',
+    'size' => 'lg',
     'options' => ['placeholder' => 'Выберите сотрудника...', 'multiple' => true],
 ]) ?>
 
