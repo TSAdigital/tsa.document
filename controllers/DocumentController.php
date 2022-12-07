@@ -144,24 +144,6 @@ class DocumentController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        $files = $model->getFiles($id);
-        $file = implode(' &equiv; ' , ArrayHelper::map($files, 'id', function($data)
-        {
-            if (\Yii::$app->user->can('updateDocument', ['document_author' => $this->findModel($data->document_id)])) {
-                $delete = Html::a(' <sup><i class="fas fa-times text-danger"></i></sup>',
-                    ['/document/file-delete', 'id' => $data->document_id, 'file' => $data->id],
-                    ['data' => ['confirm' => "Вы уверены, что хотите удалить файл $data->name?", 'method' => 'post']]
-                );
-            }else{
-                $delete = null;
-            }
-
-            $name = $data->getFileType($data->file_name) . ' ' . Html::a($data->name,
-                ['/document/download', 'id' => $data->document_id, 'file' => $data->id]
-            );
-            return $name . $delete;
-        }
-        ));
 
         $viewed = Viewed::find()->where(['document_id' => $id]);
 
@@ -186,6 +168,14 @@ class DocumentController extends Controller
             'pagination' => [
                 'pageSize' => 10,
                 'pageParam' => 'page-no-viewed',
+            ],
+        ]);
+
+        $files = new ActiveDataProvider([
+            'query' => $model->getFiles($id),
+            'pagination' => [
+                'pageSize' => 10,
+                'pageParam' => 'page-files',
             ],
         ]);
 
@@ -220,13 +210,13 @@ class DocumentController extends Controller
 
         return $this->render('view', [
             'model' => $model,
-            'file' => $file,
             'viewed' => $viewed,
             'dataViewed' => $dataViewed,
             'dataNoViewed' => $dataNoViewed,
             'discussion' => $discussion,
             'dataDiscussions' => $dataDiscussions,
-            'discussions_count' => $discussions_count ?: null
+            'discussions_count' => $discussions_count ?: null,
+            'files' => $files,
         ]);
     }
 

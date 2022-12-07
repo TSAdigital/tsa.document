@@ -162,7 +162,7 @@ class Document extends ActiveRecord
      */
     public function getFiles($id)
     {
-        return UploadForm::find()->where(['document_id' => $id])->all();
+        return UploadForm::find()->where(['document_id' => $id]);
     }
 
     /**

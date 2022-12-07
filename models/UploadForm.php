@@ -82,19 +82,19 @@ class UploadForm extends ActiveRecord
 
         switch (empty($path_parts['extension']) ?: $path_parts['extension']) {
             case 'pdf':
-                return '<i class="far fa-file-pdf text-primary"></i>';
+                return 'Документ Pdf';
             case 'doc':
-                return '<i class="far fa-file-word text-primary"></i>';
+                return 'Документ Word';
             case '7z':
             case 'zip':
-                return '<i class="far fa-file-archive text-primary"></i>';
+                return 'Архив';
             case 'xls':
-                return '<i class="far fa-file-excel text-primary"></i>';
+                return 'Документ Excel';
             case 'png':
             case 'jpg':
-                return '<i class="far fa-file-image text-primary"></i>';
+                return 'Изображение';
 
-            default: return '<i class="far fa-file"></i>';
+            default: return 'Тип файла не определен';
         }
     }
 }

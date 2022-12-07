@@ -21,9 +21,8 @@ $this->params['buttons'] = [
         'confirm' => 'Вы уверены, что хотите ознакомиться с данным документом?',
         'method' => 'post',
     ]]) : null,
-    'file' => \Yii::$app->user->can('updateDocument', ['document_author' => $model]) ? Html::a('<i class="fas fa-paperclip text-green"></i> Файл', ['upload', 'id' => $model->id], ['class' => 'btn btn-app']) : null,
-    'update' => \Yii::$app->user->can('updateDocument', ['document_author' => $model]) ? Html::a('<i class="fas fa-edit text-primary"></i> Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-app']) : null,
-    'delete' => \Yii::$app->user->can('admin') ? Html::a('<i class="fas fa-trash-alt text-danger"></i> Удалить', ['delete', 'id' => $model->id], [
+    'update' => Yii::$app->user->can('updateDocument', ['document_author' => $model]) ? Html::a('<i class="fas fa-edit text-primary"></i> Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-app']) : null,
+    'delete' => Yii::$app->user->can('admin') ? Html::a('<i class="fas fa-trash-alt text-danger"></i> Удалить', ['delete', 'id' => $model->id], [
         'class' => 'btn btn-app',
         'data' => [
             'confirm' => 'Вы уверены, что хотите удалить этот документ?',
@@ -41,6 +40,7 @@ $this->params['buttons'] = [
                 <div class="card-header p-2">
                     <ul class="nav nav-pills" id="myTab">
                         <li class="nav-item"><a class="nav-link active" href="#base" data-toggle="tab">Основное</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#file" data-toggle="tab">Файлы</a></li>
                         <li class="nav-item"><a class="nav-link" href="#case" data-toggle="tab">Обсуждения <span class="badge badge-danger"><?= $discussions_count ?></span></a></li>
                         <li class="nav-item"><a class="nav-link" href="#viewed" data-toggle="tab">События</a></li>
                     </ul>
@@ -68,12 +68,6 @@ $this->params['buttons'] = [
                                         'value' => !empty($model->getUsers($model->resolution)) ? $model->getUsers($model->resolution) : 'Все сотрудники',
                                     ],
                                     [
-                                        'attribute' => 'files',
-                                        'format' => 'raw',
-                                        'value' => !empty($file) ? $file : null,
-                                    ],
-
-                                    [
                                         'attribute' => 'status',
                                         'value' => $model->getStatusName(),
                                     ],
@@ -82,6 +76,46 @@ $this->params['buttons'] = [
                                 ],
                             ]) ?>
                         </div>
+
+                        <div class="tab-pane" id="file">
+
+                            <?php
+                                $btn = Yii::$app->user->can('updateDocument', ['document_author' => $model]) ? Html::a('<i class="fas fa-plus-circle text-success"></i>', ['upload', 'id' => $model->id], ['class' => 'btn m-0 p-0']) : null;
+                                $template = '
+                                    {summary}  
+                                    <div class="table-responsive">
+                                    <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col" style="width: 45%">Файл</th>
+                                            <th scope="col" style="width: 35%">Тип</th>
+                                            <th scope="col" style="width: 15%; text-align: center">Дата и время</th>
+                                            <th scope="col" style="width: 5%; text-align: center"> '.$btn.'
+                                                        
+                                            </th>                                                   
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {items}
+                                        </tbody>
+                                    </table>
+                                    </div>
+                                    {pager}
+                                ';
+                            ?>
+
+                            <?= ListView::widget([
+                                'dataProvider' => $files,
+                                'layout' => $template,
+                                'emptyText' => Yii::$app->user->can('updateDocument', ['document_author' => $model]) ? Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['upload', 'id' => $model->id], ['class' => 'btn btn-app mx-auto d-block']) : '<p>Файлы не загружены</p>',
+                                'viewParams' => ['document' => $model],
+                                'itemView' => '_list_files',
+                            ]);
+                            ?>
+
+                        </div>
+
                         <div class="tab-pane" id="case">
                             <div class="row">
                                 <div class="col-12">
@@ -161,7 +195,6 @@ $this->params['buttons'] = [
                                                 'itemView' => '_list',
                                             ]);
                                             ?>
-
 
                                         </div>
                                     </div>
