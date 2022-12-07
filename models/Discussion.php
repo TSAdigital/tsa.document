@@ -2,8 +2,8 @@
 
 namespace app\models;
 
-use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "discussion".
@@ -18,7 +18,7 @@ use yii\behaviors\TimestampBehavior;
  * @property User $author0
  * @property Document $document
  */
-class Discussion extends \yii\db\ActiveRecord
+class Discussion extends ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -46,7 +46,7 @@ class Discussion extends \yii\db\ActiveRecord
         return [
             [['document_id', 'author', 'text'], 'required'],
             [['document_id', 'author'], 'integer'],
-            [['text'], 'string'],
+            [['text'], 'string', 'max' => 200],
             [['author'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['author' => 'id']],
             [['document_id'], 'exist', 'skipOnError' => true, 'targetClass' => Document::class, 'targetAttribute' => ['document_id' => 'id']],
             [['text'], 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],

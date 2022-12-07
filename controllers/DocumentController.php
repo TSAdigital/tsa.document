@@ -148,7 +148,7 @@ class DocumentController extends Controller
         $file = implode(' &equiv; ' , ArrayHelper::map($files, 'id', function($data)
         {
             if (\Yii::$app->user->can('updateDocument', ['document_author' => $this->findModel($data->document_id)])) {
-                $delete = Html::a(' <sup><i class="fas fa-trash-alt text-danger"></i></sup>',
+                $delete = Html::a(' <sup><i class="fas fa-times text-danger"></i></sup>',
                     ['/document/file-delete', 'id' => $data->document_id, 'file' => $data->id],
                     ['data' => ['confirm' => "Вы уверены, что хотите удалить файл $data->name?", 'method' => 'post']]
                 );

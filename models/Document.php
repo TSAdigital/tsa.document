@@ -59,7 +59,7 @@ class Document extends ActiveRecord
             [['name', 'status', 'date'], 'required'],
             [['status', 'created_at', 'updated_at'], 'integer'],
             [['name'], 'string', 'max' => 255],
-            [['description'], 'string'],
+            [['description'], 'string', 'max' => 600],
             ['date', 'date', 'format' => 'php:d.m.Y'],
             ['author', 'integer'],
             ['resolution', 'checkIsArray'],

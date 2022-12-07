@@ -25,7 +25,7 @@ use yii\bootstrap4\ActiveForm;
     ]
 ]) ?>
 
-<?= $form->field($model, 'description')->textarea() ?>
+<?= $form->field($model, 'description')->textarea(['rows' => 5]) ?>
 
 <?= $form->field($model, 'resolution')->widget(Select2::classname(), [
     'data' => $users,
