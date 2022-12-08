@@ -1,8 +1,9 @@
 <?php
 
 use kartik\date\DatePicker;
+use kartik\form\ActiveForm;
 use kartik\select2\Select2;
-use yii\bootstrap4\ActiveForm;
+
 
 /** @var yii\web\View $this */
 /** @var app\models\Document $model */
@@ -36,7 +37,8 @@ use yii\bootstrap4\ActiveForm;
 
 <?= $form->field($model, 'status')->dropDownList( $model->getStatusesArray(), ['prompt' => 'Выберите статус']) ?>
 
-<?= $model->isNewRecord ? $form->field($model, 'send_email')->checkbox()->label('Оповестить участников на электронную почту') : null; ?>
+<?= $model->isNewRecord ? $form->field($model, 'send_email', ['enableClientValidation' => false])->checkbox(['custom' => true, 'switch' => true])->label('Оповестить участников на электронную почту'): null; ?>
+
 
 <?php ActiveForm::end(); ?>
 
