@@ -305,7 +305,7 @@ class DocumentController extends Controller
         $model = new Document();
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                $model->send_email == true ? $this->sendMail('Опубликован новый документ: ', $model->resolution, $model->name, $model->description, $model->id, '') : false;
+                $model->send_email == true ? $this->sendMail('Опубликован новый документ: ', $model->resolution, $model->name, $model->description, $model->id) : false;
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
@@ -494,12 +494,13 @@ class DocumentController extends Controller
     /**
      *
      */
-    public function sendMail($theme, $email, $name, $description, $id, $author)
+    public function sendMail($theme, $email, $name, $description, $id, $author = null)
     {
+        $user = Yii::$app->user->identity->getId();
         if(empty($email)){
             $email = ArrayHelper::map(User::find()->all(), 'id', 'email');
         }else{
-            $email = ArrayHelper::map(User::find()->where(['id' => $email])->orWhere(['id' => $author])->all(), 'id','email');
+            $email = ArrayHelper::map(User::find()->where(['id' => $email])->orWhere(['id' => $author])->andWhere(['!=', 'id', $user])->all(), 'id','email');
         }
 
         $url = Html::a('<p>Посмотреть</p>', Yii::$app->urlManager->createAbsoluteUrl(['document/view', 'id' => $id]));
