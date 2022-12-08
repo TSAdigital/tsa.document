@@ -10,6 +10,7 @@ use app\models\UploadForm;
 use app\models\User;
 use app\models\Viewed;
 use Yii;
+use yii\bootstrap4\Html;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
@@ -272,6 +273,7 @@ class DocumentController extends Controller
             $discussion->document_id = is_numeric($id) ? $id : null;
             $discussion->author = Yii::$app->user->identity->getId();
             if ($discussion->load($this->request->post()) && $discussion->save()) {
+                $this->sendMail('Новый коментарий к документу: ', $model->resolution, $model->name, $discussion->text, $id, $model->author);
                 $this->refresh();
             }
         } else {
@@ -303,7 +305,7 @@ class DocumentController extends Controller
         $model = new Document();
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                $model->send_email == true ? $this->sendMail($model->resolution, $model->name, $model->description) : false;
+                $model->send_email == true ? $this->sendMail('Опубликован новый документ: ', $model->resolution, $model->name, $model->description, $model->id, '') : false;
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
@@ -492,18 +494,20 @@ class DocumentController extends Controller
     /**
      *
      */
-    public function sendMail($email, $name, $description)
+    public function sendMail($theme, $email, $name, $description, $id, $author)
     {
         if(empty($email)){
             $email = ArrayHelper::map(User::find()->all(), 'id', 'email');
         }else{
-            $email = ArrayHelper::map(User::find()->where(['id' => $email])->all(), 'id','email');
+            $email = ArrayHelper::map(User::find()->where(['id' => $email])->orWhere(['id' => $author])->all(), 'id','email');
         }
 
-        Yii::$app->mailer->compose('layouts/html', ['content' => $description])
+        $url = Html::a('<p>Посмотреть</p>', Yii::$app->urlManager->createAbsoluteUrl(['document/view', 'id' => $id]));
+
+        Yii::$app->mailer->compose('layouts/html', ['content' => $description . $url])
             ->setFrom(['info@tsa-digital.ru' => 'TSAdocument'])
             ->setTo($email)
-            ->setSubject('Опубликован новый документ: ' . $name)
+            ->setSubject($theme . $name)
             ->send();
     }
 }
