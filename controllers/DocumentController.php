@@ -5,11 +5,11 @@ namespace app\controllers;
 use app\models\Discussion;
 use app\models\Document;
 use app\models\DocumentSearch;
+use app\models\Favourites;
 use app\models\UploadForm;
 use app\models\User;
 use app\models\Viewed;
 use Yii;
-use yii\bootstrap5\Html;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
@@ -40,6 +40,8 @@ class DocumentController extends Controller
                         'file-delete' => ['POST'],
                         'delete-discussion' => ['POST'],
                         'viewed' => ['POST'],
+                        'add-favourites' => ['POST'],
+                        'delete-favourites' => ['POST'],
                     ],
                 ],
                 'access' => [
@@ -48,6 +50,21 @@ class DocumentController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['index'],
+                            'roles' => ['user'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['favourites'],
+                            'roles' => ['user'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['add-favourites'],
+                            'roles' => ['user'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['delete-favourites'],
                             'roles' => ['user'],
                         ],
                         [
@@ -136,6 +153,59 @@ class DocumentController extends Controller
     }
 
     /**
+     * Lists all Document models.
+     *
+     * @return string
+     */
+    public function actionFavourites()
+    {
+        $model = Favourites::find()->where(['user_id' => Yii::$app->user->identity->getId()]);
+
+        $dataFavourites = new ActiveDataProvider([
+            'query' => $model,
+            'pagination' => [
+                'pageSize' => 10,
+                'pageParam' => 'page-favourites',
+            ],
+            'sort'=> [
+                'defaultOrder' => [
+                    'id' => SORT_DESC
+                ]
+            ],
+        ]);
+
+        return $this->render('favourites', [
+            'dataFavourites' => $dataFavourites
+        ]);
+    }
+
+    /**
+     *
+     */
+    public function actionAddFavourites($id)
+    {
+        $model = new Favourites();
+
+        if ($this->request->post()) {
+            $model->user_id =  Yii::$app->user->identity->getId();
+            $model->document_id = $id;
+            $model->save();
+            return $this->redirect(['view', 'id' => $id]);
+        }
+
+        return $this->redirect(['view', 'id' => $id]);
+    }
+
+    /**
+     *
+     */
+    public function actionDeleteFavourites($id)
+    {
+        Favourites::findOne(['document_id' => $id, 'user_id' => Yii::$app->user->identity->getId()])->delete();
+        return $this->redirect(['view', 'id' => $id]);
+    }
+
+    /**
      * Displays a single Document model.
      * @param int $id ID
      * @return string
@@ -208,6 +278,8 @@ class DocumentController extends Controller
             $model->loadDefaultValues();
         }
 
+        $favourites = Favourites::findOne(['document_id' => $id, 'user_id' => Yii::$app->user->identity->getId()]);
+
         return $this->render('view', [
             'model' => $model,
             'viewed' => $viewed,
@@ -217,6 +289,7 @@ class DocumentController extends Controller
             'dataDiscussions' => $dataDiscussions,
             'discussions_count' => $discussions_count ?: null,
             'files' => $files,
+            'favourites' => $favourites,
         ]);
     }
 

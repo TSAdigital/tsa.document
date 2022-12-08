@@ -17,6 +17,13 @@ $this->title = StringHelper::truncate($model->name,50,'...');
 $this->params['breadcrumbs'][] = ['label' => 'Документы', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['buttons'] = [
+    'favourites' => $favourites != NULL ? Html::a('<i class="fas fa-star text-warning"></i>Избранное', ['document/delete-favourites', 'id' => $model->id], ['class' => 'btn btn-app', 'data' => [
+        'confirm' => 'Удалить этот документ из избранного?',
+        'method' => 'post',
+    ]]) : Html::a('<i class="far fa-star text-warning"></i>Избранное', ['document/add-favourites', 'id' => $model->id], ['class' => 'btn btn-app', 'data' => [
+        'confirm' => 'Добавить этот документ в избранное?',
+        'method' => 'post',
+    ]]),
     'viewed' => ($model->author != Yii::$app->user->identity->getId() and empty($model->isViewed($model->id))) ? Html::a('<i class="fas fa-check-circle text-info"></i> Ознакомлен', ['viewed', 'id' => $model->id], ['class' => 'btn btn-app', 'data' => [
         'confirm' => 'Вы уверены, что хотите ознакомиться с данным документом?',
         'method' => 'post',
