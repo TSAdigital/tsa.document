@@ -13,7 +13,6 @@ use hail812\adminlte\widgets\Menu;
 
     <!-- Sidebar -->
     <div class="sidebar">
-
         <!-- Sidebar Menu -->
         <nav class="mt-2 mb-5">
             <?= Menu::widget([
@@ -21,12 +20,12 @@ use hail812\adminlte\widgets\Menu;
                     ['label' => 'НАВИГАЦИЯ', 'header' => true],
                     [
                         'label' => 'Документы',
-                        'url' => ['document/index'],
-                        'active'=> $this->context->getUniqueId() == 'document',
                         'icon' => 'file',
                         'badge' => '<span class="badge badge-danger right">' . Yii::$app->newDocuments->getNewDocuments() . '</span>',
-
-
+                        'items' => [
+                            ['label' => 'Все', 'url' => ['document/index'], 'active'=> $this->context->getUniqueId() == 'document' and 'document' and $this->context->action->id != 'favourites', 'icon' => ''],
+                            ['label' => 'Избранные', 'url' => ['document/favourites'], 'active'=> $this->context->getUniqueId() == 'document' and $this->context->action->id == 'favourites', 'icon' => ''],
+                        ],
                     ],
                     ['label' => 'СПРАВОЧНИКИ', 'header' => true, 'visible' => Yii::$app->user->can('admin')],
                     ['label' => 'Должности', 'url' => ['position/index'], 'active'=> $this->context->getUniqueId() == 'position', 'icon' => 'id-card-alt', 'visible' => Yii::$app->user->can('admin')],
