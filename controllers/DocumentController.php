@@ -220,9 +220,9 @@ class DocumentController extends Controller
         $data = ArrayHelper::map($viewed->all(), 'id', 'user_id');
 
         if($model->resolution == NULL){
-            $resolution = User::find()->where(['not in', 'id', $data])->andWhere(['not in', 'id', $model->author]);
+            $resolution = User::find()->where(['not in', 'id', $data])->andWhere(['not in', 'id', $model->author])->andWhere(['status' => 10]);
         } else {
-            $resolution = User::find()->where(['not in', 'id', $data])->andWhere(['id' => $model->resolution])->andWhere(['not in', 'id', $model->author]);
+            $resolution = User::find()->where(['not in', 'id', $data])->andWhere(['id' => $model->resolution])->andWhere(['not in', 'id', $model->author])->andWhere(['status' => 10]);
         }
 
         $dataViewed = new ActiveDataProvider([
@@ -497,9 +497,9 @@ class DocumentController extends Controller
     {
         $user = Yii::$app->user->identity->getId();
         if(empty($email)){
-            $email = ArrayHelper::map(User::find()->all(), 'id', 'email');
+            $email = ArrayHelper::map(User::find()->where(['status' => 10])->all(), 'id', 'email');
         }else{
-            $email = ArrayHelper::map(User::find()->where(['id' => $email])->orWhere(['id' => $author])->andWhere(['!=', 'id', $user])->all(), 'id','email');
+            $email = ArrayHelper::map(User::find()->where(['id' => $email])->orWhere(['id' => $author])->andWhere(['!=', 'id', $user])->andWhere(['status' => 10])->all(), 'id','email');
         }
 
         $url = Html::a('Посмотреть', Yii::$app->urlManager->createAbsoluteUrl(['document/view', 'id' => $id]));
