@@ -116,7 +116,11 @@ $this->params['buttons'] = [
                                 'dataProvider' => $files,
                                 'layout' => $template,
                                 'emptyText' => Yii::$app->user->can('updateDocument', ['document_author' => $model]) ? Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['upload', 'id' => $model->id], ['class' => 'btn btn-app mx-auto d-block']) : '<p>Файлы не загружены</p>',
-                                'viewParams' => ['document' => $model],
+                                'viewParams' => [
+                                        'document' => $model,
+                                        'page_size' => $files->pagination->pageSize,
+                                        'current_page' => (int) is_numeric(Yii::$app->request->get('page-files')) ? Yii::$app->request->get('page-files') : 0
+                                ],
                                 'itemView' => '_list_files',
                             ]);
                             ?>
@@ -131,7 +135,9 @@ $this->params['buttons'] = [
 
                                             <?= ListView::widget([
                                                 'dataProvider' => $dataDiscussions,
-                                                'viewParams' => ['id' => $model->id],
+                                                'viewParams' => [
+                                                    'id' => $model->id,
+                                                ],
                                                 'itemView' => '_list_discussions',
                                             ]);
                                             ?>
@@ -199,6 +205,10 @@ $this->params['buttons'] = [
                                             <?= ListView::widget([
                                                 'dataProvider' => $dataViewed,
                                                 'layout' => $template,
+                                                'viewParams' => [
+                                                    'page_size' => $dataViewed->pagination->pageSize,
+                                                    'current_page' => (int) is_numeric(Yii::$app->request->get('page-viewed')) ? Yii::$app->request->get('page-viewed') : 0
+                                                ],
                                                 'itemView' => '_list',
                                             ]);
                                             ?>
@@ -241,6 +251,10 @@ $this->params['buttons'] = [
                                             <?= ListView::widget([
                                                 'dataProvider' => $dataNoViewed,
                                                 'layout' => $template,
+                                                'viewParams' => [
+                                                    'page_size' => $dataNoViewed->pagination->pageSize,
+                                                    'current_page' => (int) is_numeric(Yii::$app->request->get('page-no-viewed')) ? Yii::$app->request->get('page-no-viewed') : 0
+                                                ],
                                                 'itemView' => '_list_no_viewed',
                                             ]);
                                             ?>

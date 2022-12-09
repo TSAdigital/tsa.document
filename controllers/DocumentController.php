@@ -166,7 +166,6 @@ class DocumentController extends Controller
             'query' => $model,
             'pagination' => [
                 'pageSize' => 10,
-                'pageParam' => 'page-favourites',
             ],
             'sort'=> [
                 'defaultOrder' => [
@@ -503,9 +502,9 @@ class DocumentController extends Controller
             $email = ArrayHelper::map(User::find()->where(['id' => $email])->orWhere(['id' => $author])->andWhere(['!=', 'id', $user])->all(), 'id','email');
         }
 
-        $url = Html::a('<p>Посмотреть</p>', Yii::$app->urlManager->createAbsoluteUrl(['document/view', 'id' => $id]));
+        $url = Html::a('Посмотреть', Yii::$app->urlManager->createAbsoluteUrl(['document/view', 'id' => $id]));
 
-        Yii::$app->mailer->compose('layouts/html', ['content' => $description . $url])
+        Yii::$app->mailer->compose('layouts/html', ['content' => $description . '<br>' . $url])
             ->setFrom(['info@tsa-digital.ru' => 'TSAdocument'])
             ->setTo($email)
             ->setSubject($theme . $name)

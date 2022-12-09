@@ -38,6 +38,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= ListView::widget([
                         'dataProvider' => $dataFavourites,
                         'layout' => $template,
+                        'viewParams' => [
+                                'page_size' => $dataFavourites->pagination->pageSize,
+                                'current_page' => (int) is_numeric(Yii::$app->request->get('page')) ? Yii::$app->request->get('page') : 0
+                        ],
                         'emptyText' => '<p>Вы пока ничего не добавляли в избранное</p>',
                         'itemView' => '_list_favourites',
                     ]);
