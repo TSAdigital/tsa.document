@@ -16,7 +16,7 @@ $name = Html::a($model->name,['/document/download', 'id' => $document->id, 'file
 ?>
 
 <tr>
-    <th scope="row"><?= $index+1; ?></th>
+    <th scope="row"><?= ++$index + ($current_page > 0 ? ($current_page - 1) * $page_size : 0) ?></th>
     <td><?= $name ?></td>
     <td><?= $model->getFileType($model->file_name) ?? null ?></td>
     <td style="text-align: center"><?= Yii::$app->formatter->asDatetime($model->created_at) ?></td>

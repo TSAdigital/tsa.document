@@ -166,7 +166,6 @@ class DocumentController extends Controller
             'query' => $model,
             'pagination' => [
                 'pageSize' => 10,
-                'pageParam' => 'page-favourites',
             ],
             'sort'=> [
                 'defaultOrder' => [
