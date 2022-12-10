@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$('#accordionExample').ready(function() {
     let selectedCollapse = sessionStorage.getItem('selectedCollapse');
     if(selectedCollapse != null) {
         $('.accordion .collapse').removeClass('show');
