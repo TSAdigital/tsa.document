@@ -14,6 +14,17 @@ use yii\widgets\Pjax;
 $this->title = 'Документы';
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['buttons'] = \Yii::$app->user->can('createDocument') ? ['create' => Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create'], ['class' => 'btn btn-app'])] : null;
+
+$layout = <<< HTML
+{input1}
+{separator}
+{input2}
+<div class="input-group-append">
+    <span class="input-group-text kv-date-remove">
+        <i class="fas fa-times kv-dp-icon"></i>
+    </span>
+</div>
+HTML;
 ?>
 
 <div class="container-fluid">
@@ -37,7 +48,7 @@ $this->params['buttons'] = \Yii::$app->user->can('createDocument') ? ['create' =
                             ],
                             [
                                 'attribute'=> 'name',
-                                'options' => ['width'=>'60%'],
+                                'options' => ['width'=>'55%'],
                                 'headerOptions' => ['style' => 'min-width:300px'],
                                 'format'=>'raw',
                                 'value' => function($model)
@@ -63,7 +74,8 @@ $this->params['buttons'] = \Yii::$app->user->can('createDocument') ? ['create' =
                                     'attribute' => 'date_from',
                                     'attribute2' => 'date_to',
                                     'type' => DatePicker::TYPE_RANGE,
-                                    'separator' => '-',
+                                    'separator' => '<i class="fas fa-exchange-alt"></i>',
+                                    'layout' => $layout,
                                     'pluginOptions' => [
                                         'format' => 'dd.mm.yyyy',
                                         'autoclose' => true,
@@ -71,8 +83,8 @@ $this->params['buttons'] = \Yii::$app->user->can('createDocument') ? ['create' =
                                         'todayBtn' => true
                                     ]
                                 ]),
-                                'options' => ['width'=>'10%'],
-                                'headerOptions' => ['style' => 'text-align: center !important; min-width:250px'],
+                                'options' => ['width'=>'15%'],
+                                'headerOptions' => ['style' => 'text-align: center !important; min-width:300px'],
                                 'contentOptions' => ['style' => 'text-align: center !important;'],
                                 'attribute' => 'date',
                                 'format' => 'date',
