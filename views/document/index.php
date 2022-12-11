@@ -74,6 +74,12 @@ $this->params['buttons'] = \Yii::$app->user->can('createDocument') ? ['create' =
                                 'contentOptions' => ['style' => 'text-align: center !important;'],
                                 'attribute' => 'date',
                                 'format' => 'date',
+                                'value' => function($model) {
+                                    $script = <<< JS
+                                        jQuery('input[id=documentsearch-date_from], input[id=documentsearch-date_to]').attr('autocomplete', 'off');
+                                    JS;
+                                    return $model->date . $this->registerJs($script);
+                                }
                             ],
                             [
                                 'filter' => Document::getStatusesArray(),
