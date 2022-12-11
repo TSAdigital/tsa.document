@@ -82,8 +82,8 @@ class DocumentSearch extends Document
             'attributes' => [
                 'id',
                 'document_author' => [
-                    'asc' => ['employee.first_name' => SORT_ASC],
-                    'desc' => ['employee.first_name' => SORT_DESC],
+                    'asc' => ['employee.last_name' => SORT_ASC],
+                    'desc' => ['employee.last_name' => SORT_DESC],
                     'label' => 'document_author',
                     'default' => SORT_ASC
                 ],
