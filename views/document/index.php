@@ -1,6 +1,7 @@
 <?php
 
 use app\models\Document;
+use kartik\date\DatePicker;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\StringHelper;
@@ -34,10 +35,9 @@ $this->params['buttons'] = \Yii::$app->user->can('createDocument') ? ['create' =
                                 'headerOptions' => ['style' => 'text-align: center !important;'],
                                 'contentOptions' => ['style' => 'text-align: center !important;']
                             ],
-
                             [
-                                'attribute'=>'name',
-                                'options' => ['width'=>'80%'],
+                                'attribute'=> 'name',
+                                'options' => ['width'=>'50%'],
                                 'format'=>'raw',
                                 'value' => function($model)
                                 {
@@ -47,11 +47,38 @@ $this->params['buttons'] = \Yii::$app->user->can('createDocument') ? ['create' =
                                     return  $name . $viewed . $badge;
                                 }
                             ],
-
+                            [
+                                'attribute'=> 'document_author',
+                                'options' => ['width'=>'20%'],
+                                'format'=>'raw',
+                                'value' => function($model) {
+                                    return Html::a($model->user->employee->employeeFullName, ['site/profile','id' => $model->user->id], ['class'=>'no-pjax']);
+                                }
+                            ],
+                            [
+                                'filter' => DatePicker::widget([
+                                    'model' => $searchModel,
+                                    'attribute' => 'date_from',
+                                    'attribute2' => 'date_to',
+                                    'type' => DatePicker::TYPE_RANGE,
+                                    'separator' => '-',
+                                    'pluginOptions' => [
+                                            'format' => 'dd.mm.yyyy',
+                                            'autoclose' => true,
+                                            'todayHighlight' => true,
+                                            'todayBtn' => true
+                                        ]
+                                ]),
+                                'options' => ['width'=>'20%'],
+                                'headerOptions' => ['style' => 'text-align: center !important;'],
+                                'contentOptions' => ['style' => 'text-align: center !important;'],
+                                'attribute' => 'date',
+                                'format' => 'date',
+                            ],
                             [
                                 'filter' => Document::getStatusesArray(),
                                 'attribute' => 'status',
-                                'options' => ['width'=>'20%'],
+                                'options' => ['width'=>'10%'],
                                 'headerOptions' => ['style' => 'text-align: center !important;'],
                                 'contentOptions' => ['style' => 'text-align: center !important;'],
                                 'format' => 'raw',
