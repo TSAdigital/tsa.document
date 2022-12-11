@@ -17,11 +17,14 @@ class DocumentSearch extends Document
     /**
      * {@inheritdoc}
      */
+
+    public $document_author;
+
     public function rules()
     {
         return [
             [['id', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['name', 'resolution', 'author'], 'safe'],
+            [['name', 'resolution', 'author', 'date', 'date_from', 'date_to', 'document_author'], 'safe'],
         ];
     }
 
@@ -71,21 +74,46 @@ class DocumentSearch extends Document
 
         $this->load($params);
 
+        $query->joinWith(['user', 'user.employee']);
+
+
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
         }
 
+        $dataProvider->setSort([
+            'attributes' => [
+                'document_author' => [
+                    'asc' => ['employee.first_name' => SORT_ASC],
+                    'desc' => ['employee.first_name' => SORT_DESC],
+                    'label' => 'document_author',
+                    'default' => SORT_ASC
+                ],
+                'name',
+                'date',
+                'status',
+            ]
+        ]);
+
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'status' => $this->status,
+            'document.status' => $this->status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(
+                    ['or',
+                        ['like', 'employee.first_name', $this->document_author],
+                        ['like', 'employee.last_name', $this->document_author],
+                        ['like', 'employee.middle_name', $this->document_author],
+                    ])
+            ->andFilterWhere(['>=', 'date', $this->date_from ? date('Y-m-d', strtotime($this->date_from)) : null])
+            ->andFilterWhere(['<=', 'date', $this->date_to ? date('Y-m-d', strtotime($this->date_to)) : null]);
 
         return $dataProvider;
     }

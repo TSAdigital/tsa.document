@@ -25,6 +25,8 @@ use yii\helpers\Json;
 class Document extends ActiveRecord
 {
     public $send_email;
+    public $date_from;
+    public $date_to;
 
     /**
      *
@@ -61,6 +63,7 @@ class Document extends ActiveRecord
             [['name'], 'string', 'max' => 255],
             [['description'], 'string', 'max' => 600],
             ['date', 'date', 'format' => 'php:d.m.Y'],
+            [['date_from', 'date_to'], 'date', 'format' => 'php:Y-m-d'],
             ['author', 'integer'],
             ['resolution', 'checkIsArray'],
             [['name', 'description'], 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
@@ -80,6 +83,7 @@ class Document extends ActiveRecord
             'description' => 'Описание',
             'date' => 'Дата документа',
             'author' => 'Автор',
+            'document_author' => 'Автор документа',
             'resolution' => 'Резолюция',
             'viewed' => 'Ознакомлены',
             'files' => 'Файлы',
