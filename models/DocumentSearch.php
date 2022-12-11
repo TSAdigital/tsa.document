@@ -65,11 +65,6 @@ class DocumentSearch extends Document
             'pagination' => [
                 'pageSize' => 10,
             ],
-            'sort'=> [
-                'defaultOrder' => [
-                    'id' => SORT_DESC
-                ]
-            ],
         ]);
 
         $this->load($params);
@@ -85,6 +80,7 @@ class DocumentSearch extends Document
 
         $dataProvider->setSort([
             'attributes' => [
+                'id',
                 'document_author' => [
                     'asc' => ['employee.first_name' => SORT_ASC],
                     'desc' => ['employee.first_name' => SORT_DESC],
@@ -94,6 +90,9 @@ class DocumentSearch extends Document
                 'name',
                 'date',
                 'status',
+            ],
+            'defaultOrder' => [
+                'id' => SORT_DESC
             ]
         ]);
 
@@ -107,11 +106,11 @@ class DocumentSearch extends Document
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(
-                    ['or',
-                        ['like', 'employee.first_name', $this->document_author],
-                        ['like', 'employee.last_name', $this->document_author],
-                        ['like', 'employee.middle_name', $this->document_author],
-                    ])
+                ['or',
+                    ['like', 'employee.first_name', $this->document_author],
+                    ['like', 'employee.last_name', $this->document_author],
+                    ['like', 'employee.middle_name', $this->document_author],
+                ])
             ->andFilterWhere(['>=', 'date', $this->date_from ? date('Y-m-d', strtotime($this->date_from)) : null])
             ->andFilterWhere(['<=', 'date', $this->date_to ? date('Y-m-d', strtotime($this->date_to)) : null]);
 
