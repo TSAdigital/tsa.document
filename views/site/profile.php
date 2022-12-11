@@ -1,6 +1,7 @@
 <?php
 
 /* @var $this yii\web\View */
+/* @var $user app\models\User */
 /* @var $actionsHistory yii\data\ActiveDataProvider */
 
 use \yii\helpers\HtmlPurifier;
@@ -11,7 +12,7 @@ $this->params['breadcrumbs'][] = 'Профиль пользователя';
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-5">
             <div class="card card-primary card-outline">
                 <div class="card-body box-profile">
                     <div class="text-center">
@@ -24,7 +25,7 @@ $this->params['breadcrumbs'][] = 'Профиль пользователя';
                 </div>
             </div>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-7">
 
         </div>
     </div>

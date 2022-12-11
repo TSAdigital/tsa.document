@@ -23,8 +23,8 @@ use hail812\adminlte\widgets\Menu;
                         'icon' => 'file',
                         'badge' => '<span class="badge badge-danger right">' . Yii::$app->newDocuments->getNewDocuments() . '</span>',
                         'items' => [
-                            ['label' => 'Все', 'url' => ['document/index'], 'active'=> $this->context->getUniqueId() == 'document' and 'document' and $this->context->action->id != 'favourites', 'icon' => ''],
-                            ['label' => 'Избранные', 'url' => ['document/favourites'], 'active'=> $this->context->getUniqueId() == 'document' and $this->context->action->id == 'favourites', 'icon' => ''],
+                            ['label' => 'Все', 'url' => ['document/index'], 'active'=> $this->context->getUniqueId() == 'document' and 'document' and $this->context->action->id != 'favourites', 'icon' => 'list'],
+                            ['label' => 'Избранные', 'url' => ['document/favourites'], 'active'=> $this->context->getUniqueId() == 'document' and $this->context->action->id == 'favourites', 'icon' => 'star'],
                         ],
                     ],
                     ['label' => 'СПРАВОЧНИКИ', 'header' => true, 'visible' => Yii::$app->user->can('admin')],
