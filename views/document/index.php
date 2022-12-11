@@ -37,7 +37,8 @@ $this->params['buttons'] = \Yii::$app->user->can('createDocument') ? ['create' =
                             ],
                             [
                                 'attribute'=> 'name',
-                                'options' => ['width'=>'50%'],
+                                'options' => ['width'=>'60%'],
+                                'headerOptions' => ['style' => 'min-width:300px'],
                                 'format'=>'raw',
                                 'value' => function($model)
                                 {
@@ -49,6 +50,7 @@ $this->params['buttons'] = \Yii::$app->user->can('createDocument') ? ['create' =
                             ],
                             [
                                 'attribute'=> 'document_author',
+                                'headerOptions' => ['style' => 'min-width:250px'],
                                 'options' => ['width'=>'20%'],
                                 'format'=>'raw',
                                 'value' => function($model) {
@@ -63,14 +65,14 @@ $this->params['buttons'] = \Yii::$app->user->can('createDocument') ? ['create' =
                                     'type' => DatePicker::TYPE_RANGE,
                                     'separator' => '-',
                                     'pluginOptions' => [
-                                            'format' => 'dd.mm.yyyy',
-                                            'autoclose' => true,
-                                            'todayHighlight' => true,
-                                            'todayBtn' => true
-                                        ]
+                                        'format' => 'dd.mm.yyyy',
+                                        'autoclose' => true,
+                                        'todayHighlight' => true,
+                                        'todayBtn' => true
+                                    ]
                                 ]),
-                                'options' => ['width'=>'20%'],
-                                'headerOptions' => ['style' => 'text-align: center !important;'],
+                                'options' => ['width'=>'10%'],
+                                'headerOptions' => ['style' => 'text-align: center !important; min-width:250px'],
                                 'contentOptions' => ['style' => 'text-align: center !important;'],
                                 'attribute' => 'date',
                                 'format' => 'date',
@@ -85,7 +87,7 @@ $this->params['buttons'] = \Yii::$app->user->can('createDocument') ? ['create' =
                                 'filter' => Document::getStatusesArray(),
                                 'attribute' => 'status',
                                 'options' => ['width'=>'10%'],
-                                'headerOptions' => ['style' => 'text-align: center !important;'],
+                                'headerOptions' => ['style' => 'text-align: center !important; min-width:150px'],
                                 'contentOptions' => ['style' => 'text-align: center !important;'],
                                 'format' => 'raw',
                                 'value' => function ($model, $key, $index, $column) {
