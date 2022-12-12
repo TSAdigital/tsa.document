@@ -65,7 +65,7 @@ HTML;
                                 'options' => ['width'=>'20%'],
                                 'format'=>'raw',
                                 'value' => function($model) {
-                                    return Html::a($model->user->employee->employeeFullName, ['site/profile','id' => $model->user->id], ['class'=>'no-pjax']);
+                                    return Html::a($model->user->employee_name, ['site/profile','id' => $model->user->id], ['class'=>'no-pjax']);
                                 }
                             ],
                             [

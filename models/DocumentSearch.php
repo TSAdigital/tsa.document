@@ -110,6 +110,7 @@ class DocumentSearch extends Document
                     ['like', 'employee.first_name', $this->document_author],
                     ['like', 'employee.last_name', $this->document_author],
                     ['like', 'employee.middle_name', $this->document_author],
+                    ['like', 'user.username', $this->document_author],
                 ])
             ->andFilterWhere(['>=', 'date', $this->date_from ? date('Y-m-d', strtotime($this->date_from)) : null])
             ->andFilterWhere(['<=', 'date', $this->date_to ? date('Y-m-d', strtotime($this->date_to)) : null]);
