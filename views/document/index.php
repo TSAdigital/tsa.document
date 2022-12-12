@@ -49,7 +49,8 @@ HTML;
                             [
                                 'attribute'=> 'name',
                                 'options' => ['width'=>'55%'],
-                                'headerOptions' => ['style' => 'min-width:300px'],
+                                'headerOptions' => ['style' => 'min-width:250px'],
+                                'contentOptions' => ['style' => 'vertical-align: middle !important;'],
                                 'format'=>'raw',
                                 'value' => function($model)
                                 {
@@ -62,6 +63,7 @@ HTML;
                             [
                                 'attribute'=> 'document_author',
                                 'headerOptions' => ['style' => 'min-width:250px'],
+                                'contentOptions' => ['style' => 'vertical-align: middle !important;'],
                                 'options' => ['width'=>'20%'],
                                 'format'=>'raw',
                                 'value' => function($model) {
@@ -85,7 +87,7 @@ HTML;
                                 ]),
                                 'options' => ['width'=>'15%'],
                                 'headerOptions' => ['style' => 'text-align: center !important; min-width:300px'],
-                                'contentOptions' => ['style' => 'text-align: center !important;'],
+                                'contentOptions' => ['style' => 'text-align: center !important; vertical-align: middle !important;'],
                                 'attribute' => 'date',
                                 'format' => 'date',
                                 'value' => function($model) {
@@ -100,7 +102,7 @@ HTML;
                                 'attribute' => 'status',
                                 'options' => ['width'=>'10%'],
                                 'headerOptions' => ['style' => 'text-align: center !important; min-width:150px'],
-                                'contentOptions' => ['style' => 'text-align: center !important;'],
+                                'contentOptions' => ['style' => 'text-align: center !important; vertical-align: middle !important;'],
                                 'format' => 'raw',
                                 'value' => function ($model, $key, $index, $column) {
                                     /** @var Document $model */
