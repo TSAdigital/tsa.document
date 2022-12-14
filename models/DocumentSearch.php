@@ -49,15 +49,19 @@ class DocumentSearch extends Document
         $user_id = Yii::$app->user->identity->getId();
         $user_role = current(ArrayHelper::getColumn(Yii::$app->authManager->getRolesByUser(Yii::$app->user->id), 'name'));
 
-        if($user_role == 'user'){
-            $query = Document::find()->where(new Expression("JSON_CONTAINS(resolution, '\"$user_id\"')"))
-                ->orWhere(['resolution' => NULL]);
-        }elseif($user_role == 'author'){
-            $query = Document::find()->where(new Expression("JSON_CONTAINS(resolution, '\"$user_id\"')"))
-                ->orWhere(['resolution' => NULL])
-                ->orWhere(['author' => $user_id]);
+        if(Yii::$app->controller->action->id == 'for-me'){
+            $query = Document::find()->andwhere(new Expression("JSON_CONTAINS(resolution, '\"$user_id\"')"));
         }else{
-            $query = Document::find();
+            if($user_role == 'user'){
+                $query = Document::find()->where(new Expression("JSON_CONTAINS(resolution, '\"$user_id\"')"))
+                    ->orWhere(['resolution' => NULL]);
+            }elseif($user_role == 'author'){
+                $query = Document::find()->where(new Expression("JSON_CONTAINS(resolution, '\"$user_id\"')"))
+                    ->orWhere(['resolution' => NULL])
+                    ->orWhere(['author' => $user_id]);
+            }else{
+                $query = Document::find();
+            }
         }
 
         $dataProvider = new ActiveDataProvider([

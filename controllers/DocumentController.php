@@ -55,6 +55,11 @@ class DocumentController extends Controller
                         ],
                         [
                             'allow' => true,
+                            'actions' => ['for-me'],
+                            'roles' => ['user'],
+                        ],
+                        [
+                            'allow' => true,
                             'actions' => ['add-favourites'],
                             'roles' => ['user'],
                         ],
@@ -130,6 +135,22 @@ class DocumentController extends Controller
                 ],
             ]
         );
+    }
+
+    /**
+     * Lists all Document models.
+     *
+     * @return string
+     */
+    public function actionForMe()
+    {
+        $searchModel = new DocumentSearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     /**
