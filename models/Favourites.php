@@ -20,6 +20,9 @@ use yii\db\ActiveRecord;
  */
 class Favourites extends ActiveRecord
 {
+    public $date_from;
+    public $date_to;
+
     /**
      * {@inheritdoc}
      */
@@ -48,7 +51,8 @@ class Favourites extends ActiveRecord
             [['document_id', 'user_id'], 'integer'],
             [['document_id'], 'exist', 'skipOnError' => true, 'targetClass' => Document::class, 'targetAttribute' => ['document_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
-            ['document_id', 'unique', 'targetAttribute' => ['document_id', 'user_id']]
+            ['document_id', 'unique', 'targetAttribute' => ['document_id', 'user_id']],
+            [['date_from', 'date_to'], 'date', 'format' => 'php:Y-m-d'],
         ];
     }
 
@@ -60,6 +64,9 @@ class Favourites extends ActiveRecord
         return [
             'id' => 'ID',
             'document_id' => 'Document ID',
+            'document_date' => 'Дата документа',
+            'document_name' => 'Наименование документа',
+            'document_author' => 'Автор документа',
             'user_id' => 'User ID',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',

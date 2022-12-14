@@ -55,11 +55,6 @@ class DocumentController extends Controller
                         ],
                         [
                             'allow' => true,
-                            'actions' => ['favourites'],
-                            'roles' => ['user'],
-                        ],
-                        [
-                            'allow' => true,
                             'actions' => ['add-favourites'],
                             'roles' => ['user'],
                         ],
@@ -150,32 +145,6 @@ class DocumentController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
-     * Lists all Document models.
-     *
-     * @return string
-     */
-    public function actionFavourites()
-    {
-        $model = Favourites::find()->where(['user_id' => Yii::$app->user->identity->getId()]);
-
-        $dataFavourites = new ActiveDataProvider([
-            'query' => $model,
-            'pagination' => [
-                'pageSize' => 10,
-            ],
-            'sort'=> [
-                'defaultOrder' => [
-                    'id' => SORT_DESC
-                ]
-            ],
-        ]);
-
-        return $this->render('favourites', [
-            'dataFavourites' => $dataFavourites
         ]);
     }
 
