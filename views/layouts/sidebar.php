@@ -24,7 +24,7 @@ use hail812\adminlte\widgets\Menu;
                         'badge' => '<span class="badge badge-danger right">' . Yii::$app->newDocuments->getNewDocuments() . '</span>',
                         'items' => [
                             ['label' => 'Все', 'url' => ['document/index'], 'active'=> $this->context->getUniqueId() == 'document' and $this->context->action->id != 'for-me', 'icon' => 'list'],
-                            ['label' => 'Для меня', 'url' => ['document/for-me'], 'active'=> $this->context->action->id == 'for-me', 'icon' => 'user'],
+                            ['label' => 'Для меня', 'url' => ['document/for-me'], 'active'=> $this->context->action->id == 'for-me', 'icon' => 'user-tag'],
                             ['label' => 'Избранные', 'url' => ['favourites/index'], 'active'=> $this->context->getUniqueId() == 'favourites', 'icon' => 'star'],
                         ],
                     ],

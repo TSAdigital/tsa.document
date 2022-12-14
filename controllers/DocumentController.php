@@ -142,7 +142,7 @@ class DocumentController extends Controller
      *
      * @return string
      */
-    public function actionForMe()
+    public function actionIndex()
     {
         $searchModel = new DocumentSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
@@ -158,7 +158,7 @@ class DocumentController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionForMe()
     {
         $searchModel = new DocumentSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
