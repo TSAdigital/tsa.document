@@ -184,4 +184,20 @@ class Document extends ActiveRecord
     {
         return Viewed::findOne(['document_id' => $document_id, 'user_id' => Yii::$app->user->identity->getId()]);
     }
+
+    /**
+     *
+     */
+    public function isResolution()
+    {
+        if($this->resolution != NULL){
+            if(in_array(Yii::$app->user->identity->getId(), (array)$this->resolution)){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return true;
+        }
+    }
 }

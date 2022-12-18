@@ -24,7 +24,7 @@ $this->params['buttons'] = [
         'confirm' => 'Добавить этот документ в избранное?',
         'method' => 'post',
     ]]),
-    'viewed' => ($model->author != Yii::$app->user->identity->getId() and empty($model->isViewed($model->id))) ? Html::a('<i class="fas fa-check-circle text-info"></i> Ознакомлен', ['viewed', 'id' => $model->id], ['class' => 'btn btn-app', 'data' => [
+    'viewed' => ($model->author != Yii::$app->user->identity->getId() and empty($model->isViewed($model->id)) and $model->isResolution() == true) ? Html::a('<i class="fas fa-check-circle text-info"></i> Ознакомлен', ['viewed', 'id' => $model->id], ['class' => 'btn btn-app', 'data' => [
         'confirm' => 'Вы уверены, что хотите ознакомиться с данным документом?',
         'method' => 'post',
     ]]) : null,

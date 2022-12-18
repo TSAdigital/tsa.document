@@ -5,6 +5,7 @@
 
 use hail812\adminlte3\assets\AdminLteAsset;
 use hail812\adminlte3\assets\PluginAsset;
+use yii\bootstrap4\Html;
 use yii\helpers\Url;
 
 AdminLteAsset::register($this);
@@ -19,7 +20,7 @@ PluginAsset::register($this)->add(['fontawesome', 'icheck-bootstrap']);
     <head>
         <meta charset="<?= Yii::$app->charset ?>">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title><?= Yii::$app->name ?> - <?= $this->title ?></title>
+        <title><?= Html::encode(Yii::$app->name) . ' | ' . Html::encode($this->title) ?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <?= $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/svg+xml', 'href' => Url::to(['/favicon.svg'])]); ?>
         <?php $this->registerCsrfMetaTags() ?>

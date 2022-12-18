@@ -29,7 +29,7 @@ $this->registerJsFile($publishedRes[1].'/control_sidebar.js', ['depends' => '\ha
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/svg+xml', 'href' => Url::to(['/favicon.svg'])]); ?>
     <?php $this->registerCsrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
+    <title><?= Html::encode(Yii::$app->name) . ' | ' . Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
 <div class="preloader">

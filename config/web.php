@@ -5,7 +5,7 @@ $db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'basic',
-    'name' => 'TSA Documents',
+    'name' => 'TSA Document',
     'basePath' => dirname(__DIR__),
     'language' => 'ru-RU',
     'timeZone' => 'Asia/Yekaterinburg',
