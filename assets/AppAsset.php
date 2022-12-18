@@ -24,8 +24,9 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
         'js/tab.js',
-        'js/preloader.js',
+        'js/sidebar.js',
         'js/accordion.js',
+        'js/preloader.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

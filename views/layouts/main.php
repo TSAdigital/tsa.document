@@ -32,9 +32,7 @@ $this->registerJsFile($publishedRes[1].'/control_sidebar.js', ['depends' => '\ha
     <title><?= Html::encode(Yii::$app->name) . ' | ' . Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<div class="preloader">
-
-</div>
+<div class="preloader"></div>
 <body class="hold-transition sidebar-mini">
 
 <?php $this->beginBody() ?>
