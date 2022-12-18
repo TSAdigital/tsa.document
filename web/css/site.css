@@ -61,14 +61,6 @@ div.required label:after {
     font-size: 1.6rem;
     margin: 0;
 }
-.preloader {
-    position: fixed;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1001;
-}
 .input-lg.select2-container--krajee-bs3 .select2-selection--multiple .select2-search--inline .select2-search__field, .input-group-lg .select2-container--krajee-bs3 .select2-selection--multiple .select2-search--inline .select2-search__field {
     padding: 12px 10px;
     font-size: 18px;
